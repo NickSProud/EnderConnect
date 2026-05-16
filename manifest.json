@@ -1,0 +1,17 @@
+{
+  "ec_lib": {
+    "version": 1,
+    "path": "EnderConnect/ec_lib.lua",
+    "tags" : ["required"]
+  },
+  "startup": {
+    "version": 1,
+    "path": "startup.lua",
+    "tags" : ["required"]
+  },
+  "update": {
+    "version": 1,
+    "path": "EnderConnect/update.lua",
+    "tags" : ["required"]
+  }
+}
