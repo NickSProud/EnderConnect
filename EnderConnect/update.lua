@@ -10,7 +10,7 @@ else
     return false
 end
 
-local ec = require("EnderConnect/ec_lib")
+local ec = require("/EnderConnect/ec_lib")
 local onlineManifest = ec.fetchOnlineManifest()
 
 if onlineManifest == nil then

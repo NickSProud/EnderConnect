@@ -24,8 +24,8 @@ function lib.fetchOnlineManifest()
 end
 
 function lib.updateFile(manifest, fileName)
-    print("Updating "..fileName)
-    local raw_file = http.get(github_location .. manifest[fileName].remote_path)
+    print("Updating ".. fileName)
+    local raw_file = http.get( github_location .. manifest[fileName].path)
     if raw_file then
         if raw_file.getResponseCode() == 200 then
             local file = fs.open(manifest[fileName].path..".tmp","w")
@@ -49,8 +49,8 @@ function lib.updateFile(manifest, fileName)
 end
 
 function lib.checkLocalVersion(filePath)
-    if not fs.exsits(filePath) then
-        print(filePath .. "doesn't exist")
+    if not fs.exists(filePath) then
+        print(filePath .. " doesn't exist")
         return 0
     end
     
