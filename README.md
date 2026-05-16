@@ -1,2 +1,2 @@
 # EnderConnect
-A ComputerCraft project
+A ComputerCraft project for controling and monitoring bases.
