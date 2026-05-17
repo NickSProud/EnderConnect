@@ -1,13 +1,20 @@
-local version = 1
+local version = 2
 local args = { ... }
+local shouldReboot = true
+local targetFile = nil
 
-if #args == 0 then 
-    print("Updating all")
-elseif #args == 1 then
-    print("Updating ".. args[1])
-else
-    print("Only use one argument for the file you want updated or no arguments for update all")
-    return false
+for i = 1, #args do
+    local arg = args[i]
+    if arg == "-noreboot" then
+        shouldReboot = false
+    else
+        if targetFile == nil then
+            targetFile = arg
+        else
+            print("Error: You can only specify one file to update.")
+            return false
+        end
+    end
 end
 
 local ec = require("/EnderConnect/ec_lib")
@@ -19,7 +26,7 @@ if onlineManifest == nil then
 end
 
 local function fileNameFromPath(filePath)
-    return string.match(filePath, "([^/]+)%.lua$") or filePath
+    return string.match(filePath, "([^/]+)$") or filePath
 end
 
 local function toUpdate(filePath)
@@ -39,21 +46,43 @@ local function doThatUpdate(filePath)
     end
 end
 
-if #args == 0 then 
+local anyFilesUpdated = false
+
+if targetFile == nil then 
     for fileName, fileData in pairs(onlineManifest) do
         print("File: " .. fileName ..  " Version: " .. fileData.version)
-        doThatUpdate(fileData.path)
+         if doThatUpdate(fileData.path) then
+            anyFilesUpdated = true
+         end
     end
-    return true
-elseif #args == 1 then
-    local targetFile = args[1]
+else
     if onlineManifest[targetFile] then
-        doThatUpdate(onlineManifest[targetFile].path)
+        print("Checking File: " .. targetFile)
+        if doThatUpdate(onlineManifest[targetFile].path) then
+            anyFilesUpdated = true
+        else
+            print(targetFile .. " is already up to date.")
+        end
     else
         print("File " .. targetFile .." not in Manifest.")
         return false
     end
-else
-    print("If you can see this message something has gone very wrong.")
-    return false
 end
+
+if anyFilesUpdated then
+    if shouldReboot then
+        print("\n[+] Updates applied successfully!")
+        print("Rebooting system to apply updates...")
+        for i = 3, 1, -1 do
+            print(i .. "...")
+            sleep(1)
+        end
+        os.reboot()
+    else
+        print("\n[+] Updates applied successfully! (Reboot bypassed by user)")
+    end
+else
+    print("\n[+] Everything is already up to date. No actions taken.")
+end
+
+return true
