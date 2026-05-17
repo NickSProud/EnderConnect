@@ -1,11 +1,11 @@
 {
   "ec_lib": {
-    "version": 1,
+    "version": 2,
     "path": "EnderConnect/ec_lib.lua",
     "tags" : ["required"]
   },
   "startup": {
-    "version": 1,
+    "version": 2,
     "path": "startup.lua",
     "tags" : ["required"]
   },
