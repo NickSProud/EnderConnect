@@ -11,7 +11,8 @@ end
 
 local function downloadFile(repoPath, localPath)
     print("Downloading: " .. localPath)
-    local response = http.get(GITHUB_URL .. repoPath)
+    local fullUrl = GITHUB_URL .. repoPath
+    local response = http.get(fullUrl)
     
     if response then
         local file = fs.open(localPath, "w")
@@ -20,7 +21,9 @@ local function downloadFile(repoPath, localPath)
         response.close()
         return true
     else
-        print("Error: Failed to download " .. repoPath)
+        -- THIS WILL SHOW YOU EXACTLY WHAT URL IS FAILING
+        print("Error! Failed to download from URL:")
+        print(fullUrl) 
         return false
     end
 end
