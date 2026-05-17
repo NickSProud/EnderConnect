@@ -1,4 +1,4 @@
-local version = 2
+local version = 3
 local args = { ... }
 local shouldReboot = true
 local targetFile = nil
@@ -26,7 +26,7 @@ if onlineManifest == nil then
 end
 
 local function fileNameFromPath(filePath)
-    return string.match(filePath, "([^/]+)$") or filePath
+    return string.match(filePath, "([^/]+)%.lua$") or filePath
 end
 
 local function toUpdate(filePath)

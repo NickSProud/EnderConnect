@@ -10,7 +10,7 @@
     "tags" : ["required"]
   },
   "update": {
-    "version": 2,
+    "version": 3,
     "path": "EnderConnect/update.lua",
     "tags" : ["required"]
   }
