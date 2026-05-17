@@ -1,5 +1,5 @@
 local version = 1
-local GITHUB_URL = "https://raw.githubusercontent.com/NickSProud/EnderConnect/main/"
+local GITHUB_URL = "https://raw.githubusercontent.com/NickSProud/EnderConnect/main/EnderConnect/"
 local LIB_DEST = "EnderConnect/ec_lib.lua"
 local UPDATE_DEST = "EnderConnect/update.lua"
 
