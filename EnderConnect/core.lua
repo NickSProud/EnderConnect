@@ -1,4 +1,4 @@
-local version = 1.1
+local version = 1
 local ec = require("/EnderConnect/ec_lib")
 
 local config = ec.loadJSONFile("EnderConnect/ec_config.json")

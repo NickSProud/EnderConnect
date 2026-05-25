@@ -1,4 +1,4 @@
-local version = 2.1
+local version = 1
 local myLabel = os.getComputerLabel()
 local myId = os.getComputerID()
 local ec = require("/EnderConnect/ec_lib")
