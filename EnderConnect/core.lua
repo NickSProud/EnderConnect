@@ -1,4 +1,4 @@
-local version = 1
+local version = 1.1
 local ec = require("/EnderConnect/ec_lib")
 
 local config = ec.loadJSONFile("EnderConnect/ec_config.json")
@@ -27,7 +27,7 @@ local tasks = {}
 
 if type(config.services) == "table" and config.services.base_controller == true then
     print("[Core] Starting base_controller...")
-    local bc = require("EnderConnect.Services.base_controller")
+    local bc = require("/EnderConnect/Services/base_controller")
     table.insert(tasks, function() bc.run(modem, config, bossChannel) end)
 end
 
