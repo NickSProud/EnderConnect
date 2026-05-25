@@ -1,6 +1,6 @@
 {
   "ec_lib": {
-    "version": 2.1,
+    "version": 2.2,
     "path": "EnderConnect/ec_lib.lua",
     "tags" : ["required"]
   },

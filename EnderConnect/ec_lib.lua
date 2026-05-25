@@ -1,4 +1,4 @@
-local version = 2.1
+local version = 2.2
 local github_location = "https://raw.githubusercontent.com/NickSProud/EnderConnect/main/"
 local manifest_location = "manifest.json"
 local lib = {}
@@ -22,6 +22,20 @@ function lib.fetchOnlineManifest()
 end
 
 function lib.updateFile(manifest, fileName)
+    local fileData = manifest[fileName]
+
+    if not fileData then
+        print("File " .. fileName .. " not found in manifest.")
+        return false
+    end
+
+    local filePath = fileData.path
+
+    local dir = fs.getDir(filePath)
+    if dir ~= "" and not fs.exists(dir) then
+        fs.makeDir(dir)
+    end
+
     print("Updating ".. fileName)
     local raw_file = http.get( github_location .. manifest[fileName].path)
     if raw_file then
