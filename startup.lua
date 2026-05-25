@@ -1,4 +1,4 @@
-local version = 1
+local version = 1.0.1
 local myLabel = os.getComputerLabel()
 local myId = os.getComputerID()
 local ec = require("/EnderConnect/ec_lib")
@@ -46,14 +46,6 @@ end
 if not config.services then
     print("[!] This device needs services configured. for now lets just call it a controller")
     config.services = {base_controller = true}
-    saveConfig = true
-end
-
-if not config.role then
-    print("[!] Configuration is missing a 'role' definition.")
-    print("Please specify a role for this device (hub, node):")
-    write("> ")
-    config.role = string.lower(read())
     saveConfig = true
 end
 
