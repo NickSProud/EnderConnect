@@ -1,10 +1,12 @@
-local version = 2
+local version = 2.1
 local myLabel = os.getComputerLabel()
 local myId = os.getComputerID()
 local ec = require("/EnderConnect/ec_lib")
 
 print("EnderConnect Startup Version:" .. version)
 print("EnderConnect Library Version:" .. ec.version)
+
+-- ID Management
 
 while myLabel == nil or myLabel == "" do
     print("Please Enter a name for this Computer.")
@@ -13,25 +15,37 @@ while myLabel == nil or myLabel == "" do
     if myLabel ~= "" then
         os.setComputerLabel(myLabel)
     else
-        print("Name cannot be blank!")
+        print("Name cannot be blank.")
     end
 end
 
 print("Computer: " .. myLabel .. " (ID: " .. myId .. ")")
 
-local myPeripherals = ec.scanForPeripherals()
+-- Config Management
 
---- I need to hande if there isn't a config script, possibly run an install process where it prompts the user locally if this is the first time this program is run.
 local config = ec.loadJSONFile("EnderConnect/ec_config.json")
 
 local saveConfig = false
 
 if not config then
     print("[!] No config file found. Creating default template...")
-    config = {
-        network_id = "EnderConnect",
-        saved_hub_id = ""
-    }
+    config = {}
+    saveConfig = true
+end
+
+if not config.channel_offset then 
+    config.channel_offset = 1000
+    saveConfig = true
+end
+
+if not config.preferredModemSide then
+    config.preferredModemSide = "auto"
+    saveConfig = true
+end
+
+if not config.services then
+    print("[!] This device needs services configured. for now lets just call it a controller")
+    config.services = {base_controller = true}
     saveConfig = true
 end
 
@@ -53,9 +67,14 @@ end
 
 if not config.baseID then
     print("[!] Configuration is missing a 'Base' definition.")
-    print("Please specify your Base ID:")
+    print("Please specify your Base ID: ")
     write("> ")
     config.baseID = string.lower(read())
+    saveConfig = true
+end
+
+if not config.hub_id then
+    config.hub_id = os.getComputerID()
     saveConfig = true
 end
 
@@ -70,14 +89,28 @@ if saveConfig then
     end
 end
 
-print("Role: " .. config.role)
+-- Driver Management
 
-if config.role == "hub" then
-    print("Launching Hub Controller...")
-    -- shell.run("EnderConnect/programs/hub.lua", textutils.serialize(myPeripherals))
-elseif config.role == "node" then
-    print("Launching Node Worker...")
-    -- shell.run("EnderConnect/programs/node.lua", textutils.serialize(myPeripherals))
-else
-    print("Error: Unknown role '" .. tostring(config.role) .. "' in config.")
+local drivers = ec.loadJSONFile("EnderConnect/ec_drivers.json")
+
+local saveDrivers = false
+
+if not drivers then
+    print("[!] No state file found. Creating default template...")
+    drivers = {}
+    saveDrivers = true
 end
+
+if saveDrivers then
+        print("Saving driver change...")
+    local success = ec.saveJSONFile("EnderConnect/ec_drivers.json", drivers)
+    if success then
+        print("State saved successfully!\n")
+    else
+        print("CRITICAL ERROR: Failed to write state to disk.")
+        return -- Stop execution if saving failed
+    end
+end
+
+print("[Startup] Handing off to core runtime...")
+shell.run("EnderConnect/core.lua")

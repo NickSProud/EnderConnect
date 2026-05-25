@@ -1,8 +1,10 @@
-local version = 2
+local version = 2.1
 local github_location = "https://raw.githubusercontent.com/NickSProud/EnderConnect/main/"
 local manifest_location = "manifest.json"
 local lib = {}
 lib.version = version
+
+-- Updating
 
 function lib.fetchOnlineManifest() 
     print ("Fetching Manifest")
@@ -62,6 +64,8 @@ function lib.checkLocalVersion(filePath)
     return 0
 end
 
+-- Other?
+
 function lib.scanForPeripherals()
     local foundPeripherals = {}
     print("--- Scanning for Peripherals ---")
@@ -73,6 +77,8 @@ function lib.scanForPeripherals()
     end
     return foundPeripherals
 end
+
+--JSON File Management
 
 function lib.loadJSONFile(filePath)
     if not fs.exists(filePath) then
@@ -97,6 +103,34 @@ function lib.saveJSONFile(filePath, data)
     file.writeLine(jsonData)
     file.close()
     return true
+end
+
+-- Networking
+
+function lib.findAndOpenModem(preferredSide)
+    if preferredSide and preferredSide ~= "auto" then
+        if peripheral.getType(preferredSide) == "modem" then
+            local modem = peripheral.wrap(preferredSide)
+            if modem.isWireless() then
+                return modem, preferredSide
+            else
+                print("Warning: Preferred side '" .. preferredSide .. "' is not a wireless modem.")
+            end
+        else
+            print("Warning: Preferred side '" .. preferredSide .. "' has no modem.")
+        end
+    end
+
+    -- Fall back to auto-detect
+    for _, side in ipairs(peripheral.getNames()) do
+        if peripheral.getType(side) == "modem" then
+            local modem = peripheral.wrap(side)
+            if modem.isWireless() then
+                return modem, side
+            end
+        end
+    end
+    return nil, nil
 end
 
 return lib

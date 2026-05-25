@@ -1,11 +1,11 @@
 {
   "ec_lib": {
-    "version": 2,
+    "version": 2.1,
     "path": "EnderConnect/ec_lib.lua",
     "tags" : ["required"]
   },
   "startup": {
-    "version": 2,
+    "version": 2.1,
     "path": "startup.lua",
     "tags" : ["required"]
   },
@@ -13,5 +13,10 @@
     "version": 3,
     "path": "EnderConnect/update.lua",
     "tags" : ["required"]
+  },
+  "base_controller": {
+    "version": 1,
+    "path": "EnderConnect/Services/base_controller.lua",
+    "tags": ["required"]
   }
 }
