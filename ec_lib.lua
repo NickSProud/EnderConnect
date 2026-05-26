@@ -1,4 +1,4 @@
-local version = 1
+local version = 1.1
 local github_location = "https://raw.githubusercontent.com/NickSProud/EnderConnect/main/"
 local manifest_location = "manifest.json"
 local lib = {}
@@ -90,6 +90,23 @@ function lib.scanForPeripherals()
         print("---")
     end
     return foundPeripherals
+end
+
+function lib.findPeripheral(typeName)
+    for _, side in ipairs(peripheral.getNames()) do
+        if peripheral.getType(side) == typeName then
+            return side
+        end
+    end
+    return nil
+end
+
+function lib.tableCount(tbl)
+    local count = 0
+    for _ in pairs(tbl) do
+        count = count + 1
+    end
+    return count
 end
 
 --JSON File Management
