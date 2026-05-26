@@ -1,0 +1,32 @@
+{
+  "ec_lib": {
+    "version": 1.1,
+    "path": "EnderConnect/ec_lib.lua",
+    "tags" : ["required"]
+  },
+  "startup": {
+    "version": 1.1,
+    "path": "EnderConnect/startup.lua",
+    "tags" : ["required"]
+  },
+  "update": {
+    "version": 1,
+    "path": "EnderConnect/update.lua",
+    "tags" : ["required"]
+  },
+  "core": {
+    "version": 1,
+    "path": "EnderConnect/core.lua",
+    "tags": ["required"]
+  },
+  "base_controller": {
+    "version": 1.1,
+    "path": "EnderConnect/Services/base_controller.lua",
+    "tags": ["required"]
+  },
+  "createaddition_electricmotor": {
+    "version": 1,
+    "path": "EnderConnect/Services/createaddition_electricmotor.lua",
+    "tags": ["createaddition_electricmotor"]
+  }
+}
