@@ -20,7 +20,7 @@
     "tags": ["required"]
   },
   "base_controller": {
-    "version": 1,
+    "version": 1.0.1,
     "path": "EnderConnect/Services/base_controller.lua",
     "tags": ["required"]
   }

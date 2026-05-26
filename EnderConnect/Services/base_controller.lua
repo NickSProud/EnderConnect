@@ -1,4 +1,4 @@
-local version = 1
+local version = 1.0.1
 local ec = require("/EnderConnect/ec_lib")
 local baseController = {}
 
@@ -18,7 +18,7 @@ function baseController.run(modem, config, bossChannel)
             print("[BaseController] Got message on channel " .. channel)
 
             if type(message) == "table" and message.type == "register" then
-                local id = message.senderId
+                local id = tostring(message.senderId)
                 
                 if registry[id] then
                     registry[id].label = message.senderLabel
