@@ -1,4 +1,4 @@
-local version = 1.1
+local version = 0.2
 local ec = require("/EnderConnect/ec_lib")
 local baseController = {}
 

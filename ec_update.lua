@@ -1,7 +1,10 @@
-local version = 1
+local version = 0.2
 local args = { ... }
 local shouldReboot = true
 local targetFile = nil
+local ec = require("/EnderConnect/ec_lib")
+local onlineManifest = ec.fetchOnlineManifest()
+local anyFilesUpdated = false
 
 for i = 1, #args do
     local arg = args[i]
@@ -16,9 +19,6 @@ for i = 1, #args do
         end
     end
 end
-
-local ec = require("/EnderConnect/ec_lib")
-local onlineManifest = ec.fetchOnlineManifest()
 
 if onlineManifest == nil then
     print("No Manifest Avaialbe")
@@ -45,8 +45,6 @@ local function doThatUpdate(filePath)
         return false
     end
 end
-
-local anyFilesUpdated = false
 
 if targetFile == nil then 
     for fileName, fileData in pairs(onlineManifest) do

@@ -1,7 +1,9 @@
-local version = 1
-local GITHUB_URL = "https://raw.githubusercontent.com/NickSProud/EnderConnect/main/EnderConnect/"
-local LIB_DEST = "EnderConnect/ec_lib.lua"
-local UPDATE_DEST = "EnderConnect/update.lua"
+local version = 0.2
+local GITHUB_URL = "https://raw.githubusercontent.com/NickSProud/EnderConnect/main/"
+local LIB_REPO = "EnderConnect/ec_lib.lua"
+local UPDATE_REPO = "ec_update.lua"
+local LIB_DEST = "/EnderConnect/ec_lib.lua"
+local UPDATE_DEST = "/ec_update.lua"
 
 print("--- EnderConnect Installer ---")
 
@@ -28,8 +30,8 @@ local function downloadFile(repoPath, localPath)
     end
 end
 
-local libSuccess = downloadFile("ec_lib.lua", LIB_DEST)
-local updateSuccess = downloadFile("update.lua", UPDATE_DEST)
+local libSuccess = downloadFile(LIB_REPO, LIB_DEST)
+local updateSuccess = downloadFile(UPDATE_REPO, UPDATE_DEST)
 
 if libSuccess and updateSuccess then
     print("\nCore framework installed successfully!")

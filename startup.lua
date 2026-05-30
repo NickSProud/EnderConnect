@@ -1,7 +1,11 @@
-local version = 1.1
+local version = 0.2
 local myLabel = os.getComputerLabel()
 local myId = os.getComputerID()
 local ec = require("/EnderConnect/ec_lib")
+local config = ec.loadJSONFile("EnderConnect/ec_config.json")
+local saveConfig = false
+local drivers = ec.loadJSONFile("EnderConnect/ec_drivers.json")
+local saveDrivers = false
 
 -- ID Management
 
@@ -19,10 +23,6 @@ end
 print("[Startup] Computer: " .. myLabel .. " (ID: " .. myId .. ")")
 
 -- Config Management
-
-local config = ec.loadJSONFile("EnderConnect/ec_config.json")
-
-local saveConfig = false
 
 if not config then
     config = {}
@@ -78,10 +78,6 @@ if saveConfig then
 end
 
 -- Driver Management
-
-local drivers = ec.loadJSONFile("EnderConnect/ec_drivers.json")
-
-local saveDrivers = false
 
 if not drivers then
     print("[Startup] No state file found. Creating default template...")

@@ -1,4 +1,4 @@
-local version = 1.1
+local version = 0.2
 local github_location = "https://raw.githubusercontent.com/NickSProud/EnderConnect/main/"
 local manifest_location = "manifest.json"
 local lib = {}
