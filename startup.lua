@@ -12,11 +12,10 @@ print("[Startup] Computer: " .. (os.getComputerLabel() or "unnamed") .. " (ID: "
 
 if not config or not config.host_id then
     print("[Startup] First-time setup required.")
-    shell.run("EnderConnect/ec_setup.lua")
-    config = ec.loadJSONFile("ec_config.json")
+    shell.run("ec_setup.lua")
+    config = ec.loadJSONFile("EnderConnect/ec_config.json")
 end
 
-config = ec.loadJSONFile("EnderConnect/ec_config.json")
 if not config or not config.host_id then
     print("CRITICAL: Setup failed. Please check for errors above.")
     return

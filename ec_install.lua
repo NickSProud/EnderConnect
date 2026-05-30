@@ -7,10 +7,6 @@ local UPDATE_DEST = "/ec_update.lua"
 
 print("--- EnderConnect Installer ---")
 
-if not fs.exists("EnderConnect") then
-    fs.makeDir("EnderConnect")
-end
-
 local function downloadFile(repoPath, localPath)
     print("Downloading: " .. localPath)
     local fullUrl = GITHUB_URL .. repoPath
