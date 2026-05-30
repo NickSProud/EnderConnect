@@ -27,7 +27,17 @@
   "base_controller": {
     "version": 0.2,
     "path": "EnderConnect/Services/base_controller.lua",
-    "tags": ["required"]
+    "tags": ["base_controller"]
+  },
+  "master_controller": {
+    "version": 0.2,
+    "path": "EnderConnect/Services/master_controller.lua",
+    "tags": ["master_controller"]
+  },
+  "controller": {
+    "version": 0.2,
+    "path": "EnderConnect/Services/controller.lua",
+    "tags": ["base_controller","master_controller"]
   },
   "createaddition_electricmotor": {
     "version": 0.2,

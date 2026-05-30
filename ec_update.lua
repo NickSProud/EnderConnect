@@ -8,6 +8,12 @@ local anyFilesUpdated = false
 local config = ec.loadJSONFile("/EnderConnect/ec_config.json") or {}
 local activeTags = {["required"] = true}
 
+if type(config.services) == "table" then
+    if config.services.master_controller then activeTags["master_controller"] = true end
+    if config.services.base_controller then activeTags["base_controller"] = true end
+    if config.services.createaddition_electricmotor then activeTags["createaddition_electricmotor"] = true end
+end
+
 for i = 1, #args do
     local arg = args[i]
     if arg == "-noreboot" then

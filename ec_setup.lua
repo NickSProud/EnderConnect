@@ -43,8 +43,9 @@ end
 
 if not config.services then
     print("\n[Setup] Select services:")
-    print("[1] base_controller (Host only)")
-    print("[2] createaddition_electricmotor")
+    print("[1] master controller")
+    print("[2] base controller")
+    print("[3] Create Additions: Eletric Motor")
     print("Enter numbers, comma-separated (e.g., 1,2):")
     write("> ")
     local choice = read()
@@ -53,11 +54,14 @@ if not config.services then
     for item in choice:gmatch("[^,]+") do
         item = item:gsub("^%s*(.-)%s*$", "%1")  -- trim whitespace
         if item == "1" then
-            config.services.base_controller = true
+            config.services.master_controller = true
         elseif item == "2" then
+            config.services.base_controller = true
+        elseif item == "3" then
             config.services.createaddition_electricmotor = true
         elseif item == "all" then
             config.services.base_controller = true
+            config.services.master_controller = true
             config.services.createaddition_electricmotor = true
         end
     end

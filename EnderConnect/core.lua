@@ -32,6 +32,12 @@ if type(config.services) == "table" and config.services.base_controller == true 
     table.insert(tasks, function() baseController.run(modem, config, hostChannel) end)
 end
 
+if type(config.services) == "table" and config.services.master_controller == true then
+    print("[Core] Starting master_controller...")
+    local masterController = require("/EnderConnect/Services/master_controller")
+    table.insert(tasks, function() masterController.run(modem, config, hostChannel) end)
+end
+
 if type(config.services) == "table" and config.services.createaddition_electricmotor == true then
     print("[Core] Starting createaddition_electricmotor...")
     local electricMotor = require("/EnderConnect/Services/createaddition_electricmotor")
