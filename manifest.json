@@ -11,6 +11,7 @@
   },
   "ec_setup": {
     "version":0.2,
+    "path": "ec_setup.lua",
     "tags" : ["required"]
   },
   "ec_update": {
