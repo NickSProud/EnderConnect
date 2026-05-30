@@ -4,7 +4,7 @@ local baseController = {}
 
 
 function baseController.run(modem, config, bossChannel)
-    print("[BaseController] Starting with hub_id " .. config.hub_id)
+    print("[BaseController] Starting with host_id " .. config.host_id)
 
     local registry = ec.loadJSONFile("EnderConnect/ec_registry.json") or {}
     local nodeCount = 0
@@ -42,7 +42,7 @@ function baseController.run(modem, config, bossChannel)
 
                 modem.transmit(replyChannel, bossChannel, {
                     type = "register_ack",
-                    hubId = config.hub_id,
+                    hubId = config.host_id,
                     status = "ok"
                 })
             end
