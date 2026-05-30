@@ -9,6 +9,10 @@
     "path": "startup.lua",
     "tags" : ["required"]
   },
+  "ec_setup": {
+    "version":0.2,
+    "tags" : ["required"]
+  },
   "ec_update": {
     "version": 0.2,
     "path": "ec_update.lua",

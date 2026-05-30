@@ -5,6 +5,8 @@ local targetFile = nil
 local ec = require("/EnderConnect/ec_lib")
 local onlineManifest = ec.fetchOnlineManifest()
 local anyFilesUpdated = false
+local config = ec.loadJSONFile("/EnderConnect/ec_config.json") or {}
+local activeTags = {["required"] = true}
 
 for i = 1, #args do
     local arg = args[i]
@@ -21,7 +23,7 @@ for i = 1, #args do
 end
 
 if onlineManifest == nil then
-    print("No Manifest Avaialbe")
+    print("No Manifest Available")
     return false
 end
 
@@ -29,8 +31,16 @@ local function fileNameFromPath(filePath)
     return string.match(filePath, "([^/]+)%.lua$") or filePath
 end
 
-local function toUpdate(filePath)
-    if ec.checkLocalVersion(filePath) < onlineManifest[fileNameFromPath(filePath)].version then
+local function shouldDownload(fileData)
+    for _, tag in ipairs(fileData.tags) do
+        if activeTags[tag] then return true end
+    end
+    return false
+end
+
+local function versionCheck(filePath)
+    local localVer = ec.checkLocalVersion(filePath) or 0
+    if localVer < onlineManifest[fileNameFromPath(filePath)].version then
         return true
     else
         return false
@@ -38,7 +48,7 @@ local function toUpdate(filePath)
 end
 
 local function doThatUpdate(filePath)
-    if toUpdate(filePath) then
+    if versionCheck(filePath) then
         ec.updateFile(onlineManifest,fileNameFromPath(filePath))
         return true
     else
@@ -48,10 +58,14 @@ end
 
 if targetFile == nil then 
     for fileName, fileData in pairs(onlineManifest) do
-        print("File: " .. fileName ..  " Version: " .. fileData.version)
-         if doThatUpdate(fileData.path) then
-            anyFilesUpdated = true
-         end
+        print("[Update] File: " .. fileName ..  " Version: " .. fileData.version)
+        if not shouldDownload(fileData) then
+            print("[Update] Skipping " .. fileName .. " (not required for this role)")
+        else
+            if doThatUpdate(fileData.path) then
+                anyFilesUpdated = true
+            end
+        end
     end
 else
     if onlineManifest[targetFile] then

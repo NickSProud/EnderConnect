@@ -1,80 +1,19 @@
 local version = 0.2
-local myLabel = os.getComputerLabel()
-local myId = os.getComputerID()
 local ec = require("/EnderConnect/ec_lib")
 local config = ec.loadJSONFile("EnderConnect/ec_config.json")
-local saveConfig = false
 local drivers = ec.loadJSONFile("EnderConnect/ec_drivers.json")
 local saveDrivers = false
 
 -- ID Management
 
-while myLabel == nil or myLabel == "" do
-    print("Please Enter a name for this Computer.")
-    write("> ")
-    myLabel = read()
-    if myLabel ~= "" then
-        os.setComputerLabel(myLabel)
-    else
-        print("Name cannot be blank.")
-    end
-end
-
-print("[Startup] Computer: " .. myLabel .. " (ID: " .. myId .. ")")
+print("[Startup] Computer: " .. (os.getComputerLabel() or "unnamed") .. " (ID: " .. os.getComputerID() .. ")")
 
 -- Config Management
 
-if not config then
-    config = {}
-    saveConfig = true
-end
-
-if not config.channel_offset then 
-    config.channel_offset = 1000
-    saveConfig = true
-end
-
-if not config.preferredModemSide then
-    config.preferredModemSide = "auto"
-    saveConfig = true
-end
-
-if not config.services then --This needs to be changed.
-    print("[Startup] This device needs services configured. for now lets just call it a controller")
-    config.services = {base_controller = true}
-    saveConfig = true
-end
-
-if not config.ownerID then
-    print("[Startup] Configuration is missing an 'owner' definition.")
-    print("Please specify your Minecraft Username:")
-    write("> ")
-    config.ownerID = string.lower(read())
-    saveConfig = true
-end
-
-if not config.baseID then
-    print("[Startup] Configuration is missing a 'Base' definition.")
-    print("Please specify your Base ID: ")
-    write("> ")
-    config.baseID = string.lower(read())
-    saveConfig = true
-end
-
-if not config.hub_id then
-    config.hub_id = os.getComputerID()
-    saveConfig = true
-end
-
-if saveConfig then
-        print("[Startup] Saving settings...")
-    local success = ec.saveJSONFile("EnderConnect/ec_config.json", config)
-    if success then
-        print("[Startup] Configuration saved successfully!\n")
-    else
-        print("CRITICAL ERROR: Failed to write configuration to disk.")
-        return -- Stop execution if saving failed
-    end
+if not config or not config.host_id then
+    print("[Startup] First-time setup required.")
+    shell.run("EnderConnect/ec_setup.lua")
+    config = ec.loadJSONFile("EnderConnect/ec_config.json")
 end
 
 -- Driver Management
@@ -89,7 +28,7 @@ if saveDrivers then
         print("[Startup] Saving driver change...")
     local success = ec.saveJSONFile("EnderConnect/ec_drivers.json", drivers)
     if success then
-        print("[Startup] tate saved successfully!\n")
+        print("[Startup] State saved successfully!\n")
     else
         print("CRITICAL ERROR: Failed to write state to disk.")
         return -- Stop execution if saving failed
