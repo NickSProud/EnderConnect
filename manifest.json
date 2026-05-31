@@ -35,7 +35,7 @@
     "tags": ["master_controller"]
   },
   "controller": {
-    "version": 0.21,
+    "version": 0.22,
     "path": "EnderConnect/Services/controller.lua",
     "tags": ["base_controller","master_controller"]
   },

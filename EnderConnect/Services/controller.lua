@@ -1,4 +1,4 @@
-local version = 0.21
+local version = 0.22
 local ec = require("/EnderConnect/ec_lib")
 local controller = {}
 
@@ -12,6 +12,45 @@ function controller.run(modem, config, parentChannel, role)
 
     for _ in pairs(registry) do nodeCount = nodeCount + 1 end
     print("[controller] Loaded " .. nodeCount .. " known nodes")
+
+if config.parent_id ~= os.getComputerID() then
+        print("[controller] Registering with parent " .. config.parent_id .. "...")
+        modem.transmit(parentChannel, myChannel, {
+            type = "register",
+            senderId = os.getComputerID(),
+            senderLabel = os.getComputerLabel() or (role .. "-" .. os.getComputerID()),
+            role = role
+        })
+
+        local startTime = os.clock()
+        local registered = false
+        while os.clock() - startTime < 5 do
+            local event, side, ch, replyCh, msg = os.pullEvent("modem_message")
+            if ch == myChannel and type(msg) == "table" and msg.type == "register_ack" then
+                print("[controller] Registered with parent successfully")
+                registered = true
+                break
+            end
+        end
+
+        if not registered then
+            print("[controller] WARNING: No register_ack from parent")
+        end
+    end
+
+    if role == "MASTER" then
+        local id = tostring(os.getComputerID())
+        registry[id] = {
+            label = os.getComputerLabel() or "MASTER-" .. id,
+            role = "MASTER",
+            replyChannel = myChannel,
+            firstSeen = os.time(),
+            lastSeen = os.time(),
+            status = "online"
+        }
+        ec.saveJSONFile("EnderConnect/ec_registry.json", registry)
+        print("[controller] Self-registered as MASTER")
+    end
 
     while true do
         local eventData = {os.pullEvent()}
