@@ -5,12 +5,12 @@
     "tags" : ["required"]
   },
   "startup": {
-    "version": 0.2,
+    "version": 0.21,
     "path": "startup.lua",
     "tags" : ["required"]
   },
   "ec_setup": {
-    "version":0.2,
+    "version":0.21,
     "path": "ec_setup.lua",
     "tags" : ["required"]
   },
@@ -20,7 +20,7 @@
     "tags" : ["required"]
   },
   "core": {
-    "version": 0.2,
+    "version": 0.21,
     "path": "EnderConnect/core.lua",
     "tags": ["required"]
   },
@@ -35,7 +35,7 @@
     "tags": ["master_controller"]
   },
   "controller": {
-    "version": 0.2,
+    "version": 0.21,
     "path": "EnderConnect/Services/controller.lua",
     "tags": ["base_controller","master_controller"]
   },

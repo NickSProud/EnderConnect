@@ -1,4 +1,4 @@
-local version = 0.2
+local version = 0.21
 local ec = require("/EnderConnect/ec_lib")
 local config = ec.loadJSONFile("EnderConnect/ec_config.json")
 local drivers = ec.loadJSONFile("EnderConnect/ec_drivers.json")
@@ -10,13 +10,13 @@ print("[Startup] Computer: " .. (os.getComputerLabel() or "unnamed") .. " (ID: "
 
 -- Config Management
 
-if not config or not config.host_id then
+if not config or not config.parent_id then
     print("[Startup] First-time setup required.")
     shell.run("ec_setup.lua")
     config = ec.loadJSONFile("EnderConnect/ec_config.json")
 end
 
-if not config or not config.host_id then
+if not config or not config.parent_id then
     print("CRITICAL: Setup failed. Please check for errors above.")
     return
 end

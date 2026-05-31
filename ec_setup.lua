@@ -1,4 +1,4 @@
-local version = 0.2
+local version = 0.21
 local ec = require("/EnderConnect/ec_lib")
 local myLabel = os.getComputerLabel()
 local config = ec.loadJSONFile("/EnderConnect/ec_config.json") or {}
@@ -23,18 +23,24 @@ if not config.ownerID then
     config.ownerID = string.lower(read())
 end
 
-if config.host_id == nil then
-    print("[Setup] Is this computer the Host? (y/n)")
+if config.host_id and not config.parent_id then
+    config.parent_id = config.host_id
+    config.host_id = nil
+    ec.saveJSONFile("EnderConnect/ec_config.json", config)
+end
+
+if config.parent_id == nil then
+    print("[Setup] Is this computer the Server Master? (y/n)")
     write("> ")
     if string.lower(read()) == "y" then
-        config.host_id = os.getComputerID()
-        print("[Setup] Set as Host (ID: " .. config.host_id .. ")")
+        config.parent_id = os.getComputerID()
+        print("[Setup] Set as Host (ID: " .. config.parent_id .. ")")
     else
         print("[Setup] Enter the Host Computer ID:")
-        while config.host_id == nil do
+        while config.parent_id == nil do
             write("> ")
-            config.host_id = tonumber(read())
-            if config.host_id == nil then 
+            config.parent_id = tonumber(read())
+            if config.parent_id == nil then 
                 print("[Setup] Invalid ID. Numbers only.")
             end
         end
