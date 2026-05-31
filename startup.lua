@@ -21,6 +21,20 @@ if not config or not config.host_id then
     return
 end
 
+if config and config.services then
+    local needsUpdate = false
+    for service, enabled in pairs(config.services) do
+        if enabled and not fs.exists("EnderConnect/Services/" .. service .. ".lua") then
+            needsUpdate = true
+            break
+        end
+    end
+    if needsUpdate then
+        print("[Startup] Missing service files detected. Running update...")
+        shell.run("ec_update -noreboot")
+    end
+end
+
 -- Driver Management
 
 if not drivers then
